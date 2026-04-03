@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBook, FaUsers, FaUser, FaPlus } from 'react-icons/fa';
 import api from '../../services/api';
@@ -9,17 +9,28 @@ const Dashboard = () => {
   const [recentBooks, setRecentBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const getTotal = (resData) => {
+    if (typeof resData?.total === 'number') return resData.total;
+    if (typeof resData?.totalElements === 'number') return resData.totalElements;
+    if (typeof resData?.count === 'number') return resData.count;
+    if (Array.isArray(resData)) return resData.length;
+    if (Array.isArray(resData?.content)) return resData.content.length;
+    return 0;
+  };
+
   useEffect(() => {
     Promise.all([
-      api.get('/books?limit=5').catch(() => ({ data: [] })),
+      api.get('/books').catch(() => ({ data: [] })),
       api.get('/users').catch(() => ({ data: [] })),
       api.get('/persons').catch(() => ({ data: [] })),
     ]).then(([booksRes, usersRes, personsRes]) => {
-      const books = Array.isArray(booksRes.data) ? booksRes.data : (booksRes.data?.content || []);
-      const users = Array.isArray(usersRes.data) ? usersRes.data : (usersRes.data?.content || []);
-      const persons = Array.isArray(personsRes.data) ? personsRes.data : (personsRes.data?.content || []);
+      const books = Array.isArray(booksRes.data) ? booksRes.data : (booksRes.data?.books || []);
 
-      setStats({ books: books.length, users: users.length, persons: persons.length });
+      setStats({
+        books: getTotal(booksRes.data),
+        users: getTotal(usersRes.data),
+        persons: getTotal(personsRes.data),
+      });
       setRecentBooks(books.slice(0, 5));
     }).finally(() => setLoading(false));
   }, []);

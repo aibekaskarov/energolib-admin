@@ -37,6 +37,16 @@ export const AuthProvider = ({ children }) => {
     return userData;
   };
 
+  const loginWithGoogle = async (googleToken) => {
+    const response = await api.post('/auth/google', { token: googleToken });
+    const { token, user: userData } = response.data;
+    if (userData.role !== 'admin') throw new Error('not_admin');
+    Cookies.set('token', token, { expires: 7 });
+    Cookies.set('user', JSON.stringify(userData), { expires: 7 });
+    setUser(userData);
+    return userData;
+  };
+
   const logout = () => {
     Cookies.remove('token');
     Cookies.remove('user');
@@ -48,6 +58,7 @@ export const AuthProvider = ({ children }) => {
       user,
       loading,
       login,
+      loginWithGoogle,
       logout,
       isAuthenticated: !!user,
       isAdmin: user?.role === 'admin',
