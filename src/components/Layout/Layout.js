@@ -1,8 +1,7 @@
-import React from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-  FaHome, FaBook, FaUser, FaUsers, FaSignOutAlt,
+  FaHome, FaBook, FaUser, FaUsers, FaSignOutAlt, FaUniversity,
 } from 'react-icons/fa';
 import styles from './Layout.module.css';
 
@@ -10,6 +9,8 @@ const pageTitles = {
   '/': 'Дашборд',
   '/books': 'Книги',
   '/books/add': 'Добавить книгу',
+  '/college-books': 'Книги колледжа',
+  '/college-books/add': 'Добавить книгу колледжа',
   '/persons': 'Персоны',
   '/persons/add': 'Добавить персону',
   '/users': 'Пользователи',
@@ -31,8 +32,11 @@ const Layout = ({ children }) => {
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
         <div className={styles.logo}>
-          <div className={styles.logoTitle}>EnergoLib</div>
-          <div className={styles.logoSub}>Admin Panel</div>
+          <div className={styles.logoMark}>E</div>
+          <div>
+            <div className={styles.logoTitle}>EnergoLib</div>
+            <div className={styles.logoSub}>Admin Panel</div>
+          </div>
         </div>
 
         <nav className={styles.nav}>
@@ -47,6 +51,9 @@ const Layout = ({ children }) => {
             <div className={styles.navSectionTitle}>Контент</div>
             <NavLink to="/books" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
               <FaBook className={styles.navIcon} /> Книги
+            </NavLink>
+            <NavLink to="/college-books" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
+              <FaUniversity className={styles.navIcon} /> Книги колледжа
             </NavLink>
             <NavLink to="/persons" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
               <FaUser className={styles.navIcon} /> Персоны

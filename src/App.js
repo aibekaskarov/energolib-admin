@@ -10,6 +10,7 @@ import BookForm from './pages/Books/BookForm';
 import Persons from './pages/Persons/Persons';
 import PersonForm from './pages/Persons/PersonForm';
 import Users from './pages/Users/Users';
+import CollegeBooks from './pages/CollegeBooks/CollegeBooks';
 import Login from './pages/Login/Login';
 
 function ScrollToTop() {
@@ -37,6 +38,7 @@ function App() {
                   <Route path="/persons" element={<Persons />} />
                   <Route path="/persons/add" element={<PersonForm />} />
                   <Route path="/persons/edit/:id" element={<PersonForm />} />
+                  <Route path="/college-books" element={<CollegeBooks />} />
                   <Route path="/users" element={<Users />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
