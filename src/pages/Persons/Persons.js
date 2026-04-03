@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPlus, FaUser } from 'react-icons/fa';
 import api from '../../services/api';
@@ -8,6 +8,7 @@ import styles from '../Books/Books.module.css';
 const Persons = () => {
   const [persons, setPersons] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const [deleteId, setDeleteId] = useState(null);
 
   const fetchPersons = () => {
@@ -26,13 +27,27 @@ const Persons = () => {
     fetchPersons();
   };
 
+  const filtered = persons.filter((p) =>
+    p.name?.toLowerCase().includes(search.toLowerCase()) ||
+    p.role?.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <div />
+        <div className={styles.totalCount}>Всего персон: {persons.length}</div>
         <Link to="/persons/add" className={styles.addBtn}>
           <FaPlus /> Добавить персону
         </Link>
+      </div>
+
+      <div className={styles.searchBar}>
+        <input
+          className={styles.searchInput}
+          placeholder="Поиск по имени или роли..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       <div className={styles.tableWrap}>
@@ -50,9 +65,9 @@ const Persons = () => {
               </tr>
             </thead>
             <tbody>
-              {persons.length === 0 ? (
+              {filtered.length === 0 ? (
                 <tr><td colSpan={5}><div className={styles.empty}>Персоны не найдены</div></td></tr>
-              ) : persons.map((p) => (
+              ) : filtered.map((p) => (
                 <tr key={p.id}>
                   <td>
                     {p.imageUrl ? (

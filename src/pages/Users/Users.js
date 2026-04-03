@@ -5,12 +5,12 @@ import styles from '../Books/Books.module.css';
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     api.get('/users').then((res) => {
-      const data = Array.isArray(res.data) ? res.data : [];
-      setUsers(data);
+      setUsers(Array.isArray(res.data) ? res.data : []);
     }).catch(() => setUsers([])).finally(() => setLoading(false));
   }, []);
 
@@ -25,8 +25,26 @@ const Users = () => {
     setDeleteId(null);
   };
 
+  const filtered = users.filter((u) =>
+    u.fullName?.toLowerCase().includes(search.toLowerCase()) ||
+    u.email?.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className={styles.page}>
+      <div className={styles.header}>
+        <div className={styles.totalCount}>Всего пользователей: {users.length}</div>
+      </div>
+
+      <div className={styles.searchBar}>
+        <input
+          className={styles.searchInput}
+          placeholder="Поиск по имени или email..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
       <div className={styles.tableWrap}>
         {loading ? (
           <div className={styles.loading}>Загрузка...</div>
@@ -42,9 +60,9 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {users.length === 0 ? (
+              {filtered.length === 0 ? (
                 <tr><td colSpan={5}><div className={styles.empty}>Пользователи не найдены</div></td></tr>
-              ) : users.map((u) => (
+              ) : filtered.map((u) => (
                 <tr key={u.id}>
                   <td>{u.fullName || '—'}</td>
                   <td>{u.email}</td>
