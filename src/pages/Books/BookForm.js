@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { getMediaUrl } from '../../services/media';
@@ -40,7 +40,7 @@ const BookForm = () => {
           language: b.language || '',
           description: b.description || '',
         });
-        if (b.imageUrl) setImagePreview(getMediaUrl(b.imageUrl));
+        if (b.coverUrl) setImagePreview(getMediaUrl(b.coverUrl));
       }).catch(() => {}).finally(() => setLoading(false));
     }
   }, [id, isEdit]);
