@@ -11,6 +11,8 @@ import Persons from './pages/Persons/Persons';
 import PersonForm from './pages/Persons/PersonForm';
 import Users from './pages/Users/Users';
 import CollegeBooks from './pages/CollegeBooks/CollegeBooks';
+import News from './pages/News/News';
+import NewsForm from './pages/News/NewsForm';
 import Login from './pages/Login/Login';
 
 function ScrollToTop() {
@@ -39,6 +41,9 @@ function App() {
                   <Route path="/persons/add" element={<PersonForm />} />
                   <Route path="/persons/edit/:id" element={<PersonForm />} />
                   <Route path="/college-books" element={<CollegeBooks />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/news/add" element={<NewsForm />} />
+                  <Route path="/news/edit/:id" element={<NewsForm />} />
                   <Route path="/users" element={<Users />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

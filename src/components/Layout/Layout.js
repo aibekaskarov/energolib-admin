@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-  FaHome, FaBook, FaUser, FaUsers, FaSignOutAlt, FaUniversity, FaBars, FaTimes,
+  FaHome, FaBook, FaUser, FaUsers, FaSignOutAlt, FaUniversity, FaBars, FaTimes, FaNewspaper,
 } from 'react-icons/fa';
 import styles from './Layout.module.css';
 
@@ -15,6 +15,8 @@ const pageTitles = {
   '/persons': 'Персоны',
   '/persons/add': 'Добавить персону',
   '/users': 'Пользователи',
+  '/news': 'Новости',
+  '/news/add': 'Добавить новость',
 };
 
 const Layout = ({ children }) => {
@@ -63,6 +65,9 @@ const Layout = ({ children }) => {
             </NavLink>
             <NavLink to="/persons" onClick={closeOnNav} className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
               <FaUser className={styles.navIcon} /> Персоны
+            </NavLink>
+            <NavLink to="/news" onClick={closeOnNav} className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
+              <FaNewspaper className={styles.navIcon} /> Новости
             </NavLink>
           </div>
 
